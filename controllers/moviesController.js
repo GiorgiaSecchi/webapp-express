@@ -1,3 +1,7 @@
+//# COLLEGAMENTO DB BLOG
+// Importiamo file di connessione al database
+const connection = require("../db/connection");
+
 //# INDEX
 
 function index(req, res) {
