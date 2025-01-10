@@ -4,14 +4,24 @@ const app = express();
 const { APP_HOST, APP_PORT } = process.env;
 
 //# REGISTERING MIDDLEWARES
-// SERVING PUBLIC FOLDER (assets statici)
+
+// Body-parser for body request (json)
+app.use(express.json());
+// Serving public folder (assets static)
 app.use(express.static("public"));
 
 //# REGISTERING ROUTERS
-// import routers
+// Import routers
 const moviesRouter = require("./routers/moviesRouter");
-// setting routers
+// Setting routers
 app.use("/movies", moviesRouter);
+
+//# ERROR HANDLERS (dopo le routers)
+const notFound = require("./middlewares/notFound");
+const errorsHandler = require("./middlewares/errorsHandler");
+
+app.use(notFound);
+app.use(errorsHandler);
 
 //# START LISTENING
 app.listen(APP_PORT, () => {
