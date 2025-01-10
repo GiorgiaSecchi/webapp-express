@@ -5,8 +5,18 @@ const connection = require("../db/connection");
 //# INDEX
 
 function index(req, res) {
-  res.json({
-    message: "OK",
+  // prepariamo la query
+  const sql = "SELECT * FROM movies";
+
+  // eseguiamo la query
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Database query failed" });
+    }
+
+    res.json(results);
+    console.log(results);
   });
 }
 
