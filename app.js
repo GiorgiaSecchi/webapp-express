@@ -3,9 +3,10 @@
 //* INIT EXPRESS
 const express = require("express");
 const app = express();
-const port = 3000;
+
+const { APP_HOST, APP_PORT } = process.env;
 
 //* START LISTENING
-app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+app.listen(APP_PORT, () => {
+  console.log(`Server listening at ${APP_HOST}:${APP_PORT}`);
 });
