@@ -14,7 +14,7 @@ app.use(express.static("public"));
 // Import routers
 const moviesRouter = require("./routers/moviesRouter");
 // Setting routers
-app.use("/movies", moviesRouter);
+app.use("/api/movies", moviesRouter);
 
 //# ERROR HANDLERS (dopo le routers)
 const notFound = require("./middlewares/notFound");
