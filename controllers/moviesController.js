@@ -48,6 +48,7 @@ function show(req, res) {
    WHERE id = ?
   `;
 
+  //* Prima query: recupera i dettagli del film
   connection.query(sqlMovie, [movieid], (err, results) => {
     if (err) {
       console.log(err);
@@ -69,6 +70,7 @@ function show(req, res) {
     WHERE movie_id = ?
     `;
 
+    //* Seconda query: recupera le recensioni del film
     connection.query(sqlReviews, [movieid], (err, results) => {
       if (err) {
         console.log(err);
@@ -78,11 +80,12 @@ function show(req, res) {
         });
       }
 
+      // Aggiunge le recensioni a movies
       movie.reviews = results;
 
       res.json({
         status: "OK",
-        movie,
+        movie: movie,
       });
     });
   });
