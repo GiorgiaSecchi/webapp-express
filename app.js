@@ -2,11 +2,11 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const { APP_HOST, APP_PORT } = process.env;
+const { APP_HOST, APP_PORT, APP_FRONTEND_URL } = process.env;
 
 // # CORS CONFIG
 var corsOptions = {
-  origin: "http://localhost:5173",
+  origin: APP_FRONTEND_URL,
   optionSuccessStatus: 200,
 };
 
