@@ -6,7 +6,7 @@ const connection = require("../db/connection");
 imageFiles = [
   "inception.jpg",
   "interstellar.jpg",
-  "matrix.jpg",
+  "the_matrix.jpg",
   "the_godfather.jpg",
   "titanic.jpg",
 ];
