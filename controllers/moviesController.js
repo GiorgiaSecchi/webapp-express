@@ -71,7 +71,7 @@ function show(req, res) {
 
     if (!movie) return res.status(404).json({ error: "Movie not found" });
 
-    movie.image = generateMovieImagePath(movie.image);
+    movie.image = generateMovieImagePath(generateMovieImageName(movie.title));
 
     const sqlReviews = `
     SELECT id, name, vote, text, created_at
