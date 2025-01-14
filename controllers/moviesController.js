@@ -2,6 +2,15 @@
 // Importiamo file di connessione al database
 const connection = require("../db/connection");
 
+// Lista nomi file cover film
+imageFiles = [
+  "inception.jpg",
+  "interstellar.jpg",
+  "matrix.jpg",
+  "the_godfather.jpg",
+  "titanic.jpg",
+];
+
 //# INDEX
 
 function index(req, res) {
@@ -21,14 +30,14 @@ function index(req, res) {
       });
     }
 
-    // const movies = results.map(movies => ({
-    //   ...movies,
-    //   image: generateMovieImagePath(movies.image)
-    // }))
+    const movies = results.map((movie) => ({
+      ...movie,
+      image: generateMovieImagePath(generateMovieImageName(movie.title)),
+    }));
 
     res.json({
       status: "OK",
-      movies: results,
+      movies: movies,
     });
 
     // res.json(results);
@@ -62,7 +71,7 @@ function show(req, res) {
 
     if (!movie) return res.status(404).json({ error: "Movie not found" });
 
-    // movie.image = generateMovieImagePath(movie.image)
+    movie.image = generateMovieImagePath(movie.image);
 
     const sqlReviews = `
     SELECT id, name, vote, text, created_at
@@ -91,9 +100,18 @@ function show(req, res) {
   });
 }
 
-// const generateMovieImagePath = (imageName) => {
-//    const { APP_HOST, APP_PORT } = process.env;
-//   return `${APP_HOST}:${APP_PORT}/img/movies${imageName}`
-// }
+// funzione genera nome dell'immagine in base al titolo
+const generateMovieImageName = (title) => {
+  const matchedImage = imageFiles.find((file) =>
+    file.toLowerCase().startsWith(title.toLowerCase().replace(" ", "_"))
+  );
+  return matchedImage || null;
+};
+
+// funzione genera percorso completo dell'immagine
+const generateMovieImagePath = (imageName) => {
+  const { APP_HOST, APP_PORT } = process.env;
+  return imageName ? `${APP_HOST}:${APP_PORT}/img/movies/${imageName}` : null;
+};
 
 module.exports = { index, show };
