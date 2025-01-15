@@ -13,6 +13,11 @@ imageFiles = [
 
 //# INDEX
 
+/**
+ * Funzione che mostra tutti i film
+ * @param {*} req
+ * @param {*} res
+ */
 function index(req, res) {
   // prepariamo la query
   const sql = `
@@ -47,6 +52,11 @@ function index(req, res) {
 
 //# SHOW
 
+/**
+ * Funzione che mostra il dettaglio di un film
+ * @param {*} req
+ * @param {*} res
+ */
 function show(req, res) {
   // recuperiamo l'id dall' URL
   const movieid = parseInt(req.params.id);
@@ -100,6 +110,38 @@ function show(req, res) {
   });
 }
 
+//# STORE
+
+/**
+ * Funzione che aggiugne una recensione ad un libro
+ * @param {*} title
+ * @returns
+ */
+function storeReview(req, res) {
+  const movieId = parseInt(req.params.id);
+  const { name, text, vote } = req.body;
+
+  const sql = `
+  INSERT INTO reviews (name, text, vote, movie_id)
+  VALUES (?, ?, ?, ?)
+  `;
+
+  connection.query(sql, [name, text, vote, movieId], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({
+        status: "KO",
+        message: "Database query failed",
+      });
+    }
+
+    res.json({
+      status: "OK",
+      message: "Review added",
+    });
+  });
+}
+
 // funzione genera nome dell'immagine in base al titolo
 const generateMovieImageName = (title) => {
   const matchedImage = imageFiles.find((file) =>
@@ -114,4 +156,4 @@ const generateMovieImagePath = (imageName) => {
   return imageName ? `${APP_HOST}:${APP_PORT}/img/movies/${imageName}` : null;
 };
 
-module.exports = { index, show };
+module.exports = { index, show, storeReview };
