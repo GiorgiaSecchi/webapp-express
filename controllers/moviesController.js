@@ -87,6 +87,7 @@ function show(req, res) {
     SELECT id, name, vote, text, created_at
     FROM reviews
     WHERE movie_id = ?
+    ORDER BY created_at DESC
     `;
 
     //* Seconda query: recupera le recensioni del film
@@ -112,6 +113,7 @@ function show(req, res) {
 
 //# STORE
 
+//* ADD REVIEWS
 /**
  * Funzione che aggiugne una recensione ad un libro
  * @param {*} title
